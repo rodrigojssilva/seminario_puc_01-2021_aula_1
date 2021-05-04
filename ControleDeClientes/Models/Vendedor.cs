@@ -3,17 +3,16 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ControleDeClientes.Models
 {
-    public class Cliente
+    public class Vendedor
     {
         [Key]
-        public int ClienteId { get; set; }
+        public int VendedorId { get; set; }
 
         [Required]
         public string Nome { get; set; }
 
         [Required]
-        [MaxLength(14)]
-        public string Documento { get; set; }
+        public float Comissao { get; set; }
 
         public List<Venda> Vendas { get; set; }
     }
