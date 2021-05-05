@@ -11,5 +11,12 @@ namespace ControleDeClientes.Data
         }
 
         public DbSet<Cliente> Clientes { get; set; }
+
+        public DbSet<Vendedor> Vendedores { get; set; }
+
+        public DbSet<Produto> Produtos { get; set; }
+
+        public DbSet<Venda> Vendas { get; set; }
+        public DbSet<VendaItem> VendasItens { get; set; }
     }
 }
