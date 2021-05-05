@@ -12,11 +12,11 @@ namespace ControleDeClientes.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProdutoesController : ControllerBase
+    public class ProdutosController : ControllerBase
     {
         private readonly ControleDeClientesContext _context;
 
-        public ProdutoesController(ControleDeClientesContext context)
+        public ProdutosController(ControleDeClientesContext context)
         {
             _context = context;
         }
