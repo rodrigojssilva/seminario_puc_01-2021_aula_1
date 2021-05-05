@@ -13,6 +13,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using ControleDeClientes.Data;
+using Microsoft.Extensions.PlatformAbstractions;
+using System.Reflection;
+using System.IO;
 
 namespace ControleDeClientes
 {
@@ -30,9 +33,22 @@ namespace ControleDeClientes
         {
 
             services.AddControllers();
-            services.AddSwaggerGen(c =>
+            services.AddSwaggerGen(options =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "ControleDeClientes", Version = "v1" });
+                options.SwaggerDoc("v1", new OpenApiInfo { 
+                    Title = "Controle de Clientes", 
+                    Version = "v1",
+                    Description = "Projeto elaborado junto com os alunos da semana da computação 01/2021",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Kapibara Softwares",
+                        Email = "comercial@kapibara.com.br",
+                        Url = new Uri("https://kapibara.com.br/")
+                    }
+                });
+
+                options.EnableAnnotations();
+                options.IncludeXmlComments(XmlCommentsPath);
             });
 
             services.AddDbContext<ControleDeClientesContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ControleDeClientesContext")));
@@ -71,6 +87,16 @@ namespace ControleDeClientes
             {
                 endpoints.MapControllers();
             });
+        }
+
+        static string XmlCommentsPath
+        {
+            get
+            {
+                var basePath = PlatformServices.Default.Application.ApplicationBasePath;
+                var fileName = typeof(Startup).GetTypeInfo().Assembly.GetName().Name + ".xml";
+                return Path.Combine(basePath, fileName);
+            }
         }
     }
 }

@@ -133,3 +133,6 @@ E:\GOOGLE_DRIVE\SEMINÁRIO_PUC_1-2021\PROJETOS\ControleDeClientes\ControleDeClie
 E:\GOOGLE_DRIVE\SEMINÁRIO_PUC_1-2021\PROJETOS\ControleDeClientes\ControleDeClientes\obj\Debug\net5.0\ref\ControleDeClientes.dll
 E:\GOOGLE_DRIVE\SEMINÁRIO_PUC_1-2021\PROJETOS\ControleDeClientes\ControleDeClientes\obj\Debug\net5.0\ControleDeClientes.pdb
 E:\GOOGLE_DRIVE\SEMINÁRIO_PUC_1-2021\PROJETOS\ControleDeClientes\ControleDeClientes\obj\Debug\net5.0\ControleDeClientes.genruntimeconfig.cache
+E:\GOOGLE_DRIVE\SEMINÁRIO_PUC_1-2021\PROJETOS\ControleDeClientes\ControleDeClientes\bin\Debug\net5.0\ControleDeClientes.xml
+E:\GOOGLE_DRIVE\SEMINÁRIO_PUC_1-2021\PROJETOS\ControleDeClientes\ControleDeClientes\bin\Debug\net5.0\Microsoft.Extensions.PlatformAbstractions.dll
+E:\GOOGLE_DRIVE\SEMINÁRIO_PUC_1-2021\PROJETOS\ControleDeClientes\ControleDeClientes\bin\Debug\net5.0\Swashbuckle.AspNetCore.Annotations.dll
