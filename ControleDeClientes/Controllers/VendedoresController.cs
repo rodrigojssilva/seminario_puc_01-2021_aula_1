@@ -11,27 +11,34 @@ using ControleDeClientes.Models;
 namespace ControleDeClientes.Controllers
 {
     [Route("api/[controller]")]
+    [Produces("application/json")]
     [ApiController]
     public class VendedoresController : ControllerBase
     {
         private readonly ControleDeClientesContext _context;
+        private readonly IDataRepository<Vendedor> _repository;
 
-        public VendedoresController(ControleDeClientesContext context)
+        public VendedoresController(ControleDeClientesContext context,
+                                    IDataRepository<Vendedor> repository)
         {
             _context = context;
+            _repository = repository;
         }
 
-        // GET: api/Vendedors
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Vendedor>>> GetVendedor()
+        public IEnumerable<Vendedor> GetVendedor()
         {
-            return await _context.Vendedores.ToListAsync();
+            return _context.Vendedores.Include(x => x.Vendas).OrderBy(x => x.Nome);
         }
 
-        // GET: api/Vendedors/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Vendedor>> GetVendedor(int id)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var vendedor = await _context.Vendedores.FindAsync(id);
 
             if (vendedor == null)
@@ -39,14 +46,17 @@ namespace ControleDeClientes.Controllers
                 return NotFound();
             }
 
-            return vendedor;
+            return Ok(vendedor);
         }
 
-        // PUT: api/Vendedors/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutVendedor(int id, Vendedor vendedor)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             if (id != vendedor.VendedorId)
             {
                 return BadRequest();
@@ -56,7 +66,8 @@ namespace ControleDeClientes.Controllers
 
             try
             {
-                await _context.SaveChangesAsync();
+                _repository.Update(vendedor);
+                var save = await _repository.SaveAsync(vendedor);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -70,32 +81,39 @@ namespace ControleDeClientes.Controllers
                 }
             }
 
-            return NoContent();
+            return Ok("Vendedor atualizado com sucesso!");
         }
 
-        // POST: api/Vendedors
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Vendedor>> PostVendedor(Vendedor vendedor)
         {
-            _context.Vendedores.Add(vendedor);
-            await _context.SaveChangesAsync();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            _repository.Add(vendedor);
+            await _repository.SaveAsync(vendedor);
 
             return CreatedAtAction("GetVendedor", new { id = vendedor.VendedorId }, vendedor);
         }
 
-        // DELETE: api/Vendedors/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteVendedor(int id)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Dados inválidos!");
+            }
+
             var vendedor = await _context.Vendedores.FindAsync(id);
             if (vendedor == null)
             {
                 return NotFound();
             }
 
-            _context.Vendedores.Remove(vendedor);
-            await _context.SaveChangesAsync();
+            _repository.Delete(vendedor);
+            await _repository.SaveAsync(vendedor);
 
             return NoContent();
         }

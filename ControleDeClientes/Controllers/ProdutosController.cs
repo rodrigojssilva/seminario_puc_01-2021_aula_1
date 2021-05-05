@@ -11,27 +11,35 @@ using ControleDeClientes.Models;
 namespace ControleDeClientes.Controllers
 {
     [Route("api/[controller]")]
+    [Produces("application/json")]
     [ApiController]
     public class ProdutosController : ControllerBase
     {
         private readonly ControleDeClientesContext _context;
+        private readonly IDataRepository<Produto> _repository;
 
-        public ProdutosController(ControleDeClientesContext context)
+        public ProdutosController(ControleDeClientesContext context,
+                                  IDataRepository<Produto> repository)
         {
             _context = context;
+            _repository = repository;
         }
 
-        // GET: api/Produtoes
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Produto>>> GetProduto()
+        public IEnumerable<Produto> GetProduto()
         {
-            return await _context.Produtos.ToListAsync();
+            return _context.Produtos.OrderBy(x => x.Descricao);
         }
 
-        // GET: api/Produtoes/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Produto>> GetProduto(int id)
         {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var produto = await _context.Produtos.FindAsync(id);
 
             if (produto == null)
@@ -39,14 +47,17 @@ namespace ControleDeClientes.Controllers
                 return NotFound();
             }
 
-            return produto;
+            return Ok(produto);
         }
 
-        // PUT: api/Produtoes/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutProduto(int id, Produto produto)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             if (id != produto.ProdutoId)
             {
                 return BadRequest();
@@ -57,6 +68,9 @@ namespace ControleDeClientes.Controllers
             try
             {
                 await _context.SaveChangesAsync();
+
+                _repository.Update(produto);
+                var save = await _repository.SaveAsync(produto);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -70,7 +84,7 @@ namespace ControleDeClientes.Controllers
                 }
             }
 
-            return NoContent();
+            return Ok("Produto atualizado com sucesso!");
         }
 
         // POST: api/Produtoes
@@ -78,26 +92,35 @@ namespace ControleDeClientes.Controllers
         [HttpPost]
         public async Task<ActionResult<Produto>> PostProduto(Produto produto)
         {
-            _context.Produtos.Add(produto);
-            await _context.SaveChangesAsync();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            _repository.Add(produto);
+            await _repository.SaveAsync(produto);
 
             return CreatedAtAction("GetProduto", new { id = produto.ProdutoId }, produto);
         }
 
-        // DELETE: api/Produtoes/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProduto(int id)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Dados inválidos!");
+            }
+
             var produto = await _context.Produtos.FindAsync(id);
             if (produto == null)
             {
                 return NotFound();
             }
 
-            _context.Produtos.Remove(produto);
-            await _context.SaveChangesAsync();
+            _repository.Delete(produto);
+            await _repository.SaveAsync(produto);
 
-            return NoContent();
+            return Ok(produto);
         }
 
         private bool ProdutoExists(int id)

@@ -14,13 +14,13 @@ namespace ControleDeClientes.Controllers
     public class ClientesController : ControllerBase
     {
         private readonly ControleDeClientesContext _context;
-        private readonly IDataRepository<Cliente> _clienteRepository;
+        private readonly IDataRepository<Cliente> _repository;
 
         public ClientesController(ControleDeClientesContext context,
-                                  IDataRepository<Cliente> clienteRepository)
+                                  IDataRepository<Cliente> repository)
         {
             _context = context;
-            _clienteRepository = clienteRepository;
+            _repository = repository;
         }
 
         [HttpGet]
@@ -64,8 +64,8 @@ namespace ControleDeClientes.Controllers
 
             try
             {
-                _clienteRepository.Update(cliente);
-                var save = await _clienteRepository.SaveAsync(cliente);
+                _repository.Update(cliente);
+                var save = await _repository.SaveAsync(cliente);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -90,8 +90,8 @@ namespace ControleDeClientes.Controllers
                 return BadRequest(ModelState);
             }
 
-            _clienteRepository.Add(cliente);
-            await _clienteRepository.SaveAsync(cliente);
+            _repository.Add(cliente);
+            await _repository.SaveAsync(cliente);
 
             return CreatedAtAction("GetCliente", new { id = cliente.ClienteId }, cliente);
         }
@@ -110,8 +110,8 @@ namespace ControleDeClientes.Controllers
                 return NotFound();
             }
 
-            _clienteRepository.Delete(cliente);
-            await _clienteRepository.SaveAsync(cliente);
+            _repository.Delete(cliente);
+            await _repository.SaveAsync(cliente);
 
             return Ok(cliente);
         }
