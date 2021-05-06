@@ -5,8 +5,9 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>E:\GOOGLE_DRIVE\SEMINÁRIO_PUC_1-2021\PROJETOS\ControleDeClientes\ControleDeClientes\ControleDeClientes.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\net5.0\ControleDeClientes.xml</DocumentationFile>
     <NoWarn>1701;1702;1591</NoWarn>
+    <OutputPath>bin\Debug\net5.0\</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>

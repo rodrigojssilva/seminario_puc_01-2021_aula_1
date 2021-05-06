@@ -14,9 +14,9 @@
             <summary>
             Retorna um único cliente de acordo com o ID buscado!
             </summary>
-            <param name="id"></param>
+            <param name="id">O id do cliente a ser buscado</param>
             <returns></returns>
-            <response code="417">Se o Id não puder ser buscado, será dispara uma exception.</response>
+            <response code="417">Se o Id não puder ser buscado, será disparada uma exception.</response>
         </member>
         <member name="M:ControleDeClientes.Controllers.ClientesController.PutCliente(System.Int32,ControleDeClientes.Models.Cliente)">
             <summary>
@@ -36,6 +36,14 @@
                 }
                 
             </remarks>
+        </member>
+        <member name="M:ControleDeClientes.Controllers.ProdutosController.AtualizaEstoqueProduto(System.Int32,System.Int32)">
+            <summary>
+            O estoque do produto será atualizado de acordo com a quantidade informada
+            </summary>
+            <param name="id">Código do produto que será atualizado</param>
+            <param name="quantidade">Quantidade do produto que irá ser adicionada ou retirada do estoque</param>
+            <returns></returns>
         </member>
     </members>
 </doc>

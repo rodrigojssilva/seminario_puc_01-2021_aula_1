@@ -93,9 +93,7 @@ namespace ControleDeClientes
         {
             get
             {
-                var basePath = PlatformServices.Default.Application.ApplicationBasePath;
-                var fileName = typeof(Startup).GetTypeInfo().Assembly.GetName().Name + ".xml";
-                return Path.Combine(basePath, fileName);
+                return "bin\\Debug\\net5.0\\ControleDeClientes.xml";
             }
         }
     }

@@ -39,7 +39,7 @@ namespace ControleDeClientes.Controllers
         /// <summary>
         /// Retorna um único cliente de acordo com o ID buscado!
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">O id do cliente a ser buscado</param>
         /// <returns></returns>
         /// <response code="417">Se o Id não puder ser buscado, será disparada uma exception.</response>
         [HttpGet("{id}")]

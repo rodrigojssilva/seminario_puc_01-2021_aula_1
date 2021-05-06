@@ -10,7 +10,7 @@ using ControleDeClientes.Models;
 
 namespace ControleDeClientes.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [Produces("application/json")]
     [ApiController]
     public class ProdutosController : ControllerBase
@@ -26,7 +26,7 @@ namespace ControleDeClientes.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Produto> GetProduto()
+        public IEnumerable<Produto> RecuperaListaDeProdutos()
         {
             return _context.Produtos.OrderBy(x => x.Descricao);
         }
@@ -121,6 +121,44 @@ namespace ControleDeClientes.Controllers
             await _repository.SaveAsync(produto);
 
             return Ok(produto);
+        }
+
+
+        /// <summary>
+        /// O estoque do produto será atualizado de acordo com a quantidade informada
+        /// </summary>
+        /// <param name="id">Código do produto que será atualizado</param>
+        /// <param name="quantidade">Quantidade do produto que irá ser adicionada ou retirada do estoque</param>
+        /// <returns></returns>
+        [HttpPut()]
+        public async Task<IActionResult> AtualizaEstoqueProduto(int id, int quantidade)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                var produto = await _context.Produtos.FindAsync(id);
+
+                produto.Quantidade += quantidade;
+                _repository.Update(produto);
+                await _repository.SaveAsync(produto);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!ProdutoExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return Ok("Estoque do produto atualizado com sucesso!");
         }
 
         private bool ProdutoExists(int id)
