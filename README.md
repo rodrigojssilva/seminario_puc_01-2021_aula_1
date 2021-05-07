@@ -1,6 +1,11 @@
 # Aplicações web com asp.net
 
-Projeto desenvolvido na primeira aula da oficina 3 do curso Ciência da Computação
+Projeto desenvolvido com os alunos do seminário da semanda da computação (oficina 3) - 1º/2021
+Neste projeto vimos:
+
+1. Desenvolvimento de APIs com asp.net core
+2. Documentação de APIs utilizando SWAGGER
+3. Construção de páginas web utilizando Angular
 
 ## OBS: Antes de rodar o projeto não se esqueça de criar o banco de dados ou todos os métodos vão gerar Exceptions. Para isso você deve:
 
