@@ -1,1 +1,9 @@
-<p>cliente-view works!</p>
+<ng-container *ngIf="(cliente | async) as cliente; else loading">
+
+    <h1>Visualizando Cliente</h1>
+    <div>Id: {{ cliente.clienteId }}</div>
+    <div>Nome: {{ cliente.nome }}</div>
+    <div>Documento: {{ cliente.documento }}</div>
+
+</ng-container>
+<ng-template #loading>Loading…</ng-template>
